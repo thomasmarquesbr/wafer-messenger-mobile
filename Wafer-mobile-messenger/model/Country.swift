@@ -29,7 +29,7 @@ class Country {
     var nativeName: String?
     var numericCode: Int?
     var currencies: [Currency]?
-    //    var languages: [Language]?
+    var languages: [Language]?
     var translations: [String: String]?
     var flag: String?
     //    let regionalBlocs: [RegionalBlock]?
@@ -56,7 +56,7 @@ class Country {
         nativeName = values["nativeName"] as? String
         numericCode = values["numericCode"] as? Int
         currencies = getCurrencies(data: values["currencies"] as Any)
-        //languages
+        languages = getLanguages(data: values["languages"] as Any)
         translations = values["translations"] as? [String: String]
         flag = values["flag"] as? String
         //regionalblocks
@@ -72,6 +72,17 @@ class Country {
             }
         }
         return currenciesArray
+    }
+    
+    func getLanguages(data: Any) -> [Language]? {
+        guard let values = data as? [Any] else { return nil }
+        var languagesArray = [Language]()
+        for lang in values {
+            if let language = Language(data: lang) {
+                languagesArray.append(language)
+            }
+        }
+        return languagesArray
     }
     
     
