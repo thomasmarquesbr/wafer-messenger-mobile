@@ -32,7 +32,7 @@ class Country {
     var languages: [Language]?
     var translations: [String: String]?
     var flag: String?
-    //    let regionalBlocs: [RegionalBlock]?
+    var regionalBlocs: [RegionalBloc]?
     var cioc: String?
     
     init(data: Any) {
@@ -59,7 +59,7 @@ class Country {
         languages = getLanguages(data: values["languages"] as Any)
         translations = values["translations"] as? [String: String]
         flag = values["flag"] as? String
-        //regionalblocks
+        regionalBlocs = getRegionalBlocs(data: values["regionalblocks"] as Any)
         cioc = values["cioc"] as? String
     }
     
@@ -85,24 +85,15 @@ class Country {
         return languagesArray
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    func getRegionalBlocs(data: Any) -> [RegionalBloc]? {
+        guard let values = data as? [Any] else { return nil }
+        var regionalBlocsArray = [RegionalBloc]()
+        for reg in values {
+            if let regionalBloc = RegionalBloc(data: reg) {
+                regionalBlocsArray.append(regionalBloc)
+            }
+        }
+        return regionalBlocsArray
+    }
+      
 }
