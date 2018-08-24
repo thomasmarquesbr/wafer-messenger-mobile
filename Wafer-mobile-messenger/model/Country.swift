@@ -6,6 +6,8 @@
 //  Copyright © 2018 Thomás Marques Brandão Reis. All rights reserved.
 //
 
+import UIKit
+
 class Country {
     
     var name: String?
@@ -26,7 +28,7 @@ class Country {
     var borders: [String]?
     var nativeName: String?
     var numericCode: Int?
-    //    var currencies: [Currency]?
+    var currencies: [Currency]?
     //    var languages: [Language]?
     var translations: [String: String]?
     var flag: String?
@@ -53,12 +55,43 @@ class Country {
         borders = values["borders"] as? [String]
         nativeName = values["nativeName"] as? String
         numericCode = values["numericCode"] as? Int
-        //currencies
+        currencies = getCurrencies(data: values["currencies"] as Any)
         //languages
         translations = values["translations"] as? [String: String]
         flag = values["flag"] as? String
         //regionalblocks
         cioc = values["cioc"] as? String
     }
+    
+    func getCurrencies(data: Any) -> [Currency]? {
+        guard let values = data as? [Any] else { return nil }
+        var currenciesArray = [Currency]()
+        for curr in values {
+            if let currency = Currency(data: curr) {
+                currenciesArray.append(currency)
+            }
+        }
+        return currenciesArray
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
