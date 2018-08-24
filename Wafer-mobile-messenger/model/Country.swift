@@ -35,7 +35,7 @@ class Country {
     var regionalBlocs: [RegionalBloc]?
     var cioc: String?
     
-    init(data: Any) {
+    init?(data: Any) {
         guard let values = data as? [String: Any] else { return }
         name = values["name"] as? String
         topLevelDomain = values["topLevelDomain"] as? [String]
@@ -95,5 +95,5 @@ class Country {
         }
         return regionalBlocsArray
     }
-      
+    
 }
