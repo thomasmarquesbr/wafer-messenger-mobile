@@ -6,7 +6,7 @@ Display json data as listview with following elements parsed from json
 
 ## Getting Started
 
-Just download or clone the project and run it in your Xcode IDE.
+Just download or clone the project IOS and run it in your Xcode IDE.
 
 ## Authors
 
