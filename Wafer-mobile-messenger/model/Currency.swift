@@ -8,12 +8,16 @@
 
 import UIKit
 
+/**
+ Currency model.
+ **/
 class Currency {
     
     var code: String?
     var name: String?
     var simbol: String?
     
+    // Initializes a model of Currency with its respective properties if possible.
     init?(data: Any) {
         guard let values = data as? [String: Any] else { return }
         code = values["code"] as? String

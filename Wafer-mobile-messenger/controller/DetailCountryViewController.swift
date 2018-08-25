@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ ViewController responsible for displaying the detail informations about the Country selected
+ **/
 class DetailCountryViewController: BaseTableViewController {
     
     var informations = [String]()
@@ -26,6 +29,7 @@ class DetailCountryViewController: BaseTableViewController {
         return informations.count
     }
     
+    // Constructs cells with the title of the information and subtitle with the value referring to each item of information of the Country, if such items exist
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = informations[indexPath.row].components(separatedBy: ":")
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCoutryCell") as! UITableViewCell

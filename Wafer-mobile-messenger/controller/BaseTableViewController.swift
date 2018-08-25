@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Base class for in-app use of TableViews. Responsible for implementing load components, display of user messages and default settings of the application's own TableView
+ **/
 class BaseTableViewController: UITableViewController {
     
     private let label = UILabel()
@@ -21,10 +24,7 @@ class BaseTableViewController: UITableViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
+    // Displays informational message to the user about the loading state of the tableview and allows reloading by touching the UILabel created with the selector: RefreshAction
     func show(message: String, refreshAction: Selector) {
         label.removeFromSuperview()
         stopLoading()
@@ -42,6 +42,7 @@ class BaseTableViewController: UITableViewController {
         tableView.addSubview(label)
     }
     
+    // Displays activityIndicator and a UILabel with table loading message for user
     func startLoading() {
         let width: CGFloat = 120
         let height: CGFloat = 30
@@ -60,6 +61,7 @@ class BaseTableViewController: UITableViewController {
         tableView.addSubview(loadingView)
     }
     
+    // Stop showing any loading message or activityIndicator.
     func stopLoading() {
         label.removeFromSuperview()
         spinner.stopAnimating()

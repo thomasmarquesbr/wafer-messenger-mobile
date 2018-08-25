@@ -8,12 +8,16 @@
 
 import UIKit
 
+/**
+ ViewController responsible for displaying the entire list of Countries
+ **/
 class CountriesViewController: BaseTableViewController, UISearchResultsUpdating {
 
     let searchController = UISearchController(searchResultsController: nil)
     var countries = [Country]()
     var filteredCountriesSearch = [Country]()
     
+    // Configura SerachBarController, Inicializa requisição ao servidor e habilita 3D touch se possível
     override func viewDidLoad() {
         super.viewDidLoad()
         initSearchController()
@@ -26,6 +30,7 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
     // MARK: - SearchController
     
+    // Configure searchBarController
     func initSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -34,10 +39,12 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         definesPresentationContext = true
     }
     
+    // Checks whether SearchBar is empty or not
     func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    // Compares the string typed in the SearchBar with the name of the country, first name if there is currency or the first current language if there is
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredCountriesSearch = countries.filter({( country: Country) -> Bool in
             return (country.name!.lowercased().contains(searchText.lowercased())) ||
@@ -47,10 +54,12 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         tableView.reloadData()
     }
     
+    // Updates results according to text typed in SearchBar
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
     
+    // Checks if a search is currently being performed to perform operations on the TableView
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
@@ -65,6 +74,7 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         return (isFiltering()) ? filteredCountriesSearch.count : countries.count
     }
     
+    // Constructs each cell title with country name, subtitle with the first currency and first language if it exists in the model
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let country = (isFiltering()) ? filteredCountriesSearch[indexPath.row] : countries[indexPath.row]
         let currencyName = country.currencies?.first?.name ?? ""
@@ -76,6 +86,7 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         return cell
     }
     
+    // Creates swipe action to the left with a custom pump icon and allows deletion of the cell as it slides all the way to the left. The country is removed from both the default list and the filtered list if possible
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction =  UIContextualAction(style: .destructive, title: nil, handler: { (_, _,handler ) in
             if self.isFiltering() {
@@ -94,6 +105,7 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
     // MARK: - Segue
     
+    // Configures parameters of the next ViewController that will be called when clicking a TableViewCell
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailCountrySegue", let row = tableView.indexPathForSelectedRow?.row {
             let country = (isFiltering()) ? filteredCountriesSearch[row] : countries[row]
@@ -105,6 +117,7 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
     // MARK: - Functions
     
+    // Check Internet connection availability and then Make a call to DataManager to load the list of Countries
     @objc func getCountries(sender: AnyObject) {
         if !Reachability.isConnectedToNetwork() {
             show(message: Constants.no_connection, refreshAction: #selector(CountriesViewController.getCountries))
@@ -125,9 +138,12 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
 }
 
+/**
+ Extends the class to support Peek and Pop 3D Touch available on the IOS device
+ **/
 extension CountriesViewController: UIViewControllerPreviewingDelegate {
     
-    // peek
+    // Peek: Displays a preview of a particular configured ViewController
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) else { return nil }
         let country = (isFiltering()) ? filteredCountriesSearch[indexPath.row] : countries[indexPath.row]
@@ -138,7 +154,7 @@ extension CountriesViewController: UIViewControllerPreviewingDelegate {
         return detailCountryViewController
     }
     
-    // pop
+    // Pop: When you end the pressure on the screen, it opens a certain configured ViewController
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.show(viewControllerToCommit, sender: self)
     }

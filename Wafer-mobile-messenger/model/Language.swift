@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Language model.
+ **/
 class Language {
     
     var iso639_1: String?
@@ -15,6 +18,7 @@ class Language {
     var name: String?
     var nativeName: String?
     
+    // Initializes a model of Language with its respective properties if possible.
     init?(data: Any) {
         guard let values = data as? [String: Any] else { return nil }
         iso639_1 = values["iso639_1"] as? String

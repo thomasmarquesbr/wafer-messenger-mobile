@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Country model.
+ **/
 class Country {
     
     var name: String?
@@ -35,6 +38,7 @@ class Country {
     var regionalBlocs: [RegionalBloc]?
     var cioc: String?
     
+    // Initializes a model of Country with its respective properties if possible.
     init?(data: Any) {
         guard let values = data as? [String: Any] else { return }
         name = values["name"] as? String
@@ -63,6 +67,7 @@ class Country {
         cioc = values["cioc"] as? String
     }
     
+    // Create the Currencies list if possible.
     private func getCurrencies(data: Any) -> [Currency]? {
         guard let values = data as? [Any] else { return nil }
         var currenciesArray = [Currency]()
@@ -74,6 +79,7 @@ class Country {
         return currenciesArray
     }
     
+    // Create the Languages list if possible.
     private func getLanguages(data: Any) -> [Language]? {
         guard let values = data as? [Any] else { return nil }
         var languagesArray = [Language]()
@@ -85,6 +91,7 @@ class Country {
         return languagesArray
     }
     
+    // Create the RegionalBlocs list if possible.
     private func getRegionalBlocs(data: Any) -> [RegionalBloc]? {
         guard let values = data as? [Any] else { return nil }
         var regionalBlocsArray = [RegionalBloc]()
@@ -96,6 +103,7 @@ class Country {
         return regionalBlocsArray
     }
     
+    // Converts the class properties to an array of strings to make it easier to display its details in the ViewController. Null properties are disregarded.
     func toArray() -> [String] {
         var array = [String]()
         if let name = name { array.append("name:\(name)") }

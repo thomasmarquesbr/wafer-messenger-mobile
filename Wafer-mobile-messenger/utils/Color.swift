@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Class responsible for providing custom application colors.
+ **/
 struct Color {
     
     static let primary = UIColor(red: 133/255.0, green: 42/255.0, blue: 254/255.0, alpha: 1.0)
