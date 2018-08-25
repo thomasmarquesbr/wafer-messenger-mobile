@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_0" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,14 +15,14 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="2b3-5g-8uW">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="cbi-V7-XyF">
-                                <rect key="frame" x="120.5" y="244" width="80" height="80"/>
+                                <rect key="frame" x="147.66666666666666" y="366" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="8BH-EI-ozy"/>
                                     <constraint firstAttribute="height" constant="80" id="egF-92-AI3"/>
@@ -33,7 +33,7 @@
                         <constraints>
                             <constraint firstItem="2b3-5g-8uW" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="5kI-nf-MKY"/>
                             <constraint firstItem="2b3-5g-8uW" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="86H-kp-Jgv"/>
-                            <constraint firstItem="2b3-5g-8uW" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="HOd-vc-qao"/>
+                            <constraint firstItem="2b3-5g-8uW" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="HOd-vc-qao"/>
                             <constraint firstItem="cbi-V7-XyF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="J52-iI-dcI"/>
                             <constraint firstItem="2b3-5g-8uW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Mjx-IO-j0t"/>
                             <constraint firstItem="cbi-V7-XyF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="O57-Zi-hnO"/>
@@ -47,7 +47,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="375" height="667"/>
+        <image name="background" width="375" height="812"/>
         <image name="icon" width="141" height="119"/>
     </resources>
+    <color key="tintColor" red="0.52156862745098043" green="0.16470588235294117" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
 </document>
