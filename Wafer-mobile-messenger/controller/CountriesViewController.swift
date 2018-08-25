@@ -8,14 +8,48 @@
 
 import UIKit
 
-class CountriesViewController: BaseTableViewController {
+class CountriesViewController: BaseTableViewController, UISearchResultsUpdating {
 
+    let searchController = UISearchController(searchResultsController: nil)
     var countries = [Country]()
+    var filteredCountriesSearch = [Country]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
+        initSearchController()
         getCountries(sender: self)
+    }
+    
+    // MARK: - SearchController
+    
+    func initSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = Constants.country_currency_or_language
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredCountriesSearch = countries.filter({( country: Country) -> Bool in
+            return (country.name!.lowercased().contains(searchText.lowercased())) ||
+                (country.currencies?.first?.name?.lowercased().contains(searchText.lowercased()))! ||
+                (country.languages?.first?.name?.lowercased().contains(searchText.lowercased()))!
+        })
+        tableView.reloadData()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
     }
     
     // MARK: - TableView
@@ -25,11 +59,11 @@ class CountriesViewController: BaseTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return (isFiltering()) ? filteredCountriesSearch.count : countries.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let country = countries[indexPath.row]
+        let country = (isFiltering()) ? filteredCountriesSearch[indexPath.row] : countries[indexPath.row]
         let currencyName = country.currencies?.first?.name ?? ""
         let languageName = country.languages?.first?.name ?? ""
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellCountry")!
