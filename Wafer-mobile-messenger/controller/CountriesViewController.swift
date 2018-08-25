@@ -14,6 +14,7 @@ class CountriesViewController: BaseTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
         getCountries(sender: self)
     }
     
@@ -31,11 +32,21 @@ class CountriesViewController: BaseTableViewController {
         let country = countries[indexPath.row]
         let currencyName = country.currencies?.first?.name ?? ""
         let languageName = country.languages?.first?.name ?? ""
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellCountry") as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellCountry")!
         cell.textLabel?.text = country.name
         cell.detailTextLabel?.text = "\(currencyName) - \(languageName)"
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction =  UIContextualAction(style: .destructive, title: nil, handler: { (_, _,handler ) in
+            self.countries.remove(at: indexPath.row)
+            handler(true)
+        })
+        deleteAction.image = #imageLiteral(resourceName: "bomb")
+        deleteAction.backgroundColor = Color.primary
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     // MARK: - Functions
