@@ -18,6 +18,10 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         super.viewDidLoad()
         initSearchController()
         getCountries(sender: self)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: tableView)
+        }
+
     }
     
     // MARK: - SearchController
@@ -74,7 +78,13 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction =  UIContextualAction(style: .destructive, title: nil, handler: { (_, _,handler ) in
-            self.countries.remove(at: indexPath.row)
+            if self.isFiltering() {
+                let countryToRemove = self.filteredCountriesSearch[indexPath.row]
+                self.countries = self.countries.filter({ $0.name != countryToRemove.name })
+                self.filteredCountriesSearch.remove(at: indexPath.row)
+            } else {
+                self.countries.remove(at: indexPath.row)
+            }
             handler(true)
         })
         deleteAction.image = #imageLiteral(resourceName: "bomb")
@@ -114,3 +124,24 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     }
     
 }
+
+extension CountriesViewController: UIViewControllerPreviewingDelegate {
+    
+    // peek
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) else { return nil }
+        let country = (isFiltering()) ? filteredCountriesSearch[indexPath.row] : countries[indexPath.row]
+        guard let detailCountryViewController = storyboard?.instantiateViewController(withIdentifier: "detailCountryVC") as? DetailCountryViewController else { return nil }
+        detailCountryViewController.informations = country.toArray()
+        detailCountryViewController.title = country.name
+        previewingContext.sourceRect = cell.frame
+        return detailCountryViewController
+    }
+    
+    // pop
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.show(viewControllerToCommit, sender: self)
+    }
+    
+}
+

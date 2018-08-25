@@ -60,7 +60,7 @@
         <!--Detail Country View Controller-->
         <scene sceneID="eJV-bk-ZnH">
             <objects>
-                <tableViewController id="FYW-AP-2Q4" customClass="DetailCountryViewController" customModule="Wafer_mobile_messenger" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="detailCountryVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FYW-AP-2Q4" customClass="DetailCountryViewController" customModule="Wafer_mobile_messenger" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7cY-vi-uyt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
