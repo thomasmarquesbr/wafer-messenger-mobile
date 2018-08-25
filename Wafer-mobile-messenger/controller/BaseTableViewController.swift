@@ -18,6 +18,7 @@ class BaseTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
     }
     
     override func viewDidAppear(_ animated: Bool) {

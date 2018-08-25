@@ -16,7 +16,6 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
         initSearchController()
         getCountries(sender: self)
     }
@@ -83,6 +82,17 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
+    // MARK: - Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailCountrySegue", let row = tableView.indexPathForSelectedRow?.row {
+            let country = (isFiltering()) ? filteredCountriesSearch[row] : countries[row]
+            let detailCountryViewController = segue.destination as! DetailCountryViewController
+            detailCountryViewController.informations = country.toArray()
+            detailCountryViewController.title = country.name
+        }
+    }
+    
     // MARK: - Functions
     
     @objc func getCountries(sender: AnyObject) {
@@ -103,5 +113,4 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         }
     }
     
-
 }
