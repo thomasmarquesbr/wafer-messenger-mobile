@@ -8,10 +8,14 @@
 
 import Foundation
 
+/**
+ Class responsible for controlling and executing requests to the data server.
+ **/
 class DataManager {
     
     let strUrl = "https://restcountries.eu/rest/v2/all"
 
+    // Performs a request to the server and returns an array of Countries.
     func getCountries(completion: @escaping([Country])->Void) {
         let url = NSURL(string: strUrl)
         URLSession.shared.dataTask(with: (url as URL?)!) { (data, response, error) in

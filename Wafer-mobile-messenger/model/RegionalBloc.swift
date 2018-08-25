@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ RegionalBloc model.
+ **/
 class RegionalBloc {
     
     var acronym: String?
@@ -15,6 +18,7 @@ class RegionalBloc {
     var otherAcronyms: String?
     var otherNames: [String]?
     
+    // Initializes a model of RegionalBloc with its respective properties if possible.
     init?(data: Any) {
         guard let values = data as? [String: Any] else { return nil }
         acronym = values["acronym"] as? String
