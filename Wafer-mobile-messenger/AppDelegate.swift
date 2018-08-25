@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        UINavigationBar.appearance().prefersLargeTitles = true
+        if #available(iOS 11.0, *) {
+            UINavigationBar.appearance().prefersLargeTitles = true
+        } 
         UINavigationBar.appearance().barTintColor = Color.secondary
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : Color.primary]
         return true

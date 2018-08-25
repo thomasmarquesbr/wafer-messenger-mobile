@@ -21,7 +21,9 @@ class BaseTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: Color.primary]
+        } 
     }
     
     // Displays informational message to the user about the loading state of the tableview and allows reloading by touching the UILabel created with the selector: RefreshAction

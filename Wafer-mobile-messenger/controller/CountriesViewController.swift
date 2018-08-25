@@ -35,7 +35,9 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = Constants.country_currency_or_language
-        navigationItem.searchController = searchController
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        }
         definesPresentationContext = true
     }
     
@@ -87,20 +89,29 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
     }
     
     // Creates swipe action to the left with a custom pump icon and allows deletion of the cell as it slides all the way to the left. The country is removed from both the default list and the filtered list if possible
+    @available(iOS 11.0, *)
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction =  UIContextualAction(style: .destructive, title: nil, handler: { (_, _,handler ) in
-            if self.isFiltering() {
-                let countryToRemove = self.filteredCountriesSearch[indexPath.row]
-                self.countries = self.countries.filter({ $0.name != countryToRemove.name })
-                self.filteredCountriesSearch.remove(at: indexPath.row)
-            } else {
-                self.countries.remove(at: indexPath.row)
-            }
+            self.removeCountry(index: indexPath.row)
             handler(true)
         })
         deleteAction.image = #imageLiteral(resourceName: "bomb")
         deleteAction.backgroundColor = Color.primary
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    // Function responsible for swipe action on devices with lower IOS 11.0
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "") { action, index in
+            self.removeCountry(index: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        deleteAction.backgroundColor = UIColor(patternImage: actionCellImage())
+        return [deleteAction]
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
     // MARK: - Segue
@@ -134,6 +145,31 @@ class CountriesViewController: BaseTableViewController, UISearchResultsUpdating 
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    func removeCountry(index: Int) {
+        if self.isFiltering() {
+            let countryToRemove = self.filteredCountriesSearch[index]
+            self.countries = self.countries.filter({ $0.name != countryToRemove.name })
+            self.filteredCountriesSearch.remove(at: index)
+        } else {
+            self.countries.remove(at: index)
+        }
+    }
+    
+    // Configure image for editRow in devices with IOS 10 or lower
+    func actionCellImage() -> UIImage {
+        let commonWid : CGFloat = 40
+        let commonHei : CGFloat = 70 // EACH ROW HEIGHT
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: commonWid, height: commonHei), false, UIScreen.main.scale)
+        let context = UIGraphicsGetCurrentContext()
+        context!.setFillColor(Color.primary.cgColor)
+        context!.fill(CGRect(x: 0, y: 0, width: commonWid, height: commonHei))
+        var img: UIImage = UIImage(named: "bomb")!
+        img.draw(in: CGRect(x: 4, y: 7, width: 30, height: 30))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
     
 }
